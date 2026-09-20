@@ -418,7 +418,7 @@ React keys must be passed directly to JSX without using spread:
         <td class="num">${u(ce.section.title)}</td>
         <td class="num">${m(be)} / ${m(ce.items.length)}</td>
         <td class="num"><span class="bar"><span style="width:${Z}%;background:${T(Z)}"></span></span><b>${m(Z)}%</b></td>
-      </tr>`}).join(""),O=ce=>ce>=1?ce>=2?'<span class="sev sev-partial">جزئي / غير موثّق</span>':'<span class="sev sev-ok">كامل / موثّق</span>':'<span class="sev sev-bad">غير متوفر</span>',M=o.sections.map((ce,be)=>`
+      </tr>`}).join(""),O=ce=>ce>=1?ce>=2?'<span class="sev sev-partial">مطبق جزئيًا / غير موثّق</span>':'<span class="sev sev-ok">كامل / موثّق</span>':'<span class="sev sev-bad">غير متوفر</span>',M=o.sections.map((ce,be)=>`
     <section class="block detail-section">
       <h2 class="item-h2">${be+1} — ${u(ce.section.title)}
         <span class="h2-pct" style="color:${T(ce.percent)}">${m(Math.round(ce.percent))}%</span>
@@ -446,7 +446,21 @@ React keys must be passed directly to JSX without using spread:
         <thead><tr><th class="col-st">الدرجة</th><th>المشكلة والتفصيل</th></tr></thead>
         <tbody>${R}</tbody>
       </table>
-    </section>`:'<section class="block"><h2>أولاً — تشخيص المشاكل</h2><p class="empty">لا توجد مشاكل ذات أولوية — جميع المحاور في وضع مقبول.</p></section>',P=o.needs.length>0?`
+    </section>`:'<section class="block"><h2>أولاً — تشخيص المشاكل</h2><p class="empty">لا توجد مشاكل ذات أولوية — جميع المحاور في وضع مقبول.</p></section>',Y=o.advice.length>0?`
+    <section class="block action-plan">
+      <h2>خطة المعالجة التنفيذية — أول 90 يوماً</h2>
+      <p class="note">ابدأ بالإجراءات التالية بالترتيب، وحدد مسئول التنفيذ وتاريخ الإغلاق الفعلي داخل المنشأة.</p>
+      <table>
+        <thead><tr><th class="col-st">الأولوية</th><th>الإجراء المطلوب</th><th class="col-law">الإطار الزمني</th><th class="col-law">مسئول التنفيذ</th></tr></thead>
+        <tbody>${o.advice.slice(0,5).map((ce,be)=>`
+          <tr>
+            <td class="num"><span class="priority priority-${be<2?"urgent":be<4?"high":"medium"}">${be<2?"عاجل":be<4?"مرتفع":"متوسط"}</span></td>
+            <td><b>${u(ce.text)}</b><br/><span class="sub">${u(ce.law)}</span></td>
+            <td class="num">${be<2?"فوراً — 7 أيام":be<4?"خلال 30 يوماً":"خلال 90 يوماً"}</td>
+            <td>شئون العاملين / الإدارة المختصة</td>
+          </tr>`).join("")}</tbody>
+      </table>
+    </section>`:'<section class="block action-plan"><h2>خطة المعالجة التنفيذية</h2><p class="empty">لا توجد إجراءات عاجلة حالياً — استمر في المراجعة الدورية.</p></section>',P=o.needs.length>0?`
     <section class="block">
       <h2>ثانياً — احتياجات الشركة</h2>
       <ol>${o.needs.map(ce=>`<li>${u(ce)}</li>`).join("")}</ol>
@@ -458,7 +472,7 @@ React keys must be passed directly to JSX without using spread:
         <div class="fine main"><span class="label">متوسط إجمالي الغرامات المتوقع</span><span class="value">${m(d)} جنيه</span></div>
         <div class="fine"><span class="label">البنود المخالفة</span><span class="value">${o.violations.length} من ${h} بنداً</span></div>
       </div>
-      <p class="note">التقدير استرشادي بحدود الغرامات المقررة في قانون العمل 14/2025 وقانون التأمينات 148/2019، وتتضاعف الغرامات في حالة العود أو بتعدد الحالات/العمال حسب نص كل عقوبة.</p>
+      <p class="note legal-note"><b>تنبيه قانوني:</b> هذا التقدير استرشادي للتوعية وتحديد الأولويات، ولا يُعد فتوى أو قراراً نهائياً. القيمة الفعلية تتحدد وفق ملابسات الواقعة، وعدد العمال، وتعدد المخالفات، وحالة العود، وتقدير الجهة المختصة.</p>
     </section>`,X=o.advice.map(ce=>`
       <tr>
         <td>${u(ce.text)}</td>
@@ -487,7 +501,7 @@ React keys must be passed directly to JSX without using spread:
         بمتوسط مرجَّح ${m(d)} جنيه. وقد جرى أدناه تفصيل نتيجة كل محور ثم كل بند على حدة بحالته ومرجعه القانوني وعقوبته المقررة،
         تليها تشخيص المشاكل واحتياجات الشركة والنصائح القانونية اللازمة للمعالجة قبل أي تفتيش محتمل.
       </p>
-    </section>`,`
+    </section>`,Y,`
     <section class="block">
       <h2>1 — نسب الامتثال لكل محور</h2>
       <table>
@@ -497,7 +511,7 @@ React keys must be passed directly to JSX without using spread:
     </section>`,`
     <section class="block">
       <h2>2 — الفحص التفصيلي لكل بند</h2>
-      <p class="note">الحالة «غير متوفر» تعني مخالفة كاملة، و«جزئي» يعني توثيقاً غير كامل (يعامل كجزء من الدرجة)، و«كامل» يعني امتثالاً موثقاً.</p>
+      <p class="note">الحالة «غير متوفر» تعني أن البند غير مطبق، و«مطبق جزئيًا / غير موثّق» تعني وجود تطبيق ناقص أو مستند غير مكتمل (ويُحتسب جزء من الدرجة)، و«كامل وموثّق» تعني امتثالاً مثبتاً بالمستند.</p>
       <div class="detail-tables">${M}</div>
     </section>`,$,P,F,W].filter(Boolean).join(""),re=`
     <section class="page cover">
@@ -507,7 +521,7 @@ React keys must be passed directly to JSX without using spread:
             <p class="cover-label">تقرير تدقيق قانوني — شئون العاملين</p>
             <h1>التقرير النهائي للتقييم<span class="dot">.</span></h1>
           </div>
-          <p class="cover-date">${u(l)}</p>
+          <p class="cover-date">${u(l)}<br/>آخر مراجعة للمحتوى: سبتمبر 2026</p>
         </div>
         <div class="cover-body">
           <div class="cover-main">
@@ -519,9 +533,9 @@ React keys must be passed directly to JSX without using spread:
           </div>
           ${x}
         </div>
-        <div class="confidential">وثيقة سرية — أعدت للاستخدام الداخلي للمنشأة</div>
+        <div class="confidential">وثيقة سرية — أعدت للاستخدام الداخلي للمنشأة<br/>تقرير استرشادي لا يغني عن المراجعة القانونية المتخصصة</div>
       </div>
-    </section>`,Q=["الملخص التنفيذي","1 — نسب الامتثال لكل محور","2 — الفحص التفصيلي لكل بند","أولاً — تشخيص المشاكل","ثانياً — احتياجات الشركة","ثالثاً — ملخص إجمالي الغرامات","رابعاً — النصائح القانونية والغرامات"],Ae=`
+    </section>`,Q=["الملخص التنفيذي","خطة المعالجة التنفيذية — أول 90 يوماً","1 — نسب الامتثال لكل محور","2 — الفحص التفصيلي لكل بند","أولاً — تشخيص المشاكل","ثانياً — احتياجات الشركة","ثالثاً — ملخص إجمالي الغرامات","رابعاً — النصائح القانونية والغرامات"],Ae=`
     <section class="page toc">
       <div class="cover-frame toc-frame">
         <div class="cover-header">
@@ -813,6 +827,28 @@ React keys must be passed directly to JSX without using spread:
   .sev-حرجة { background: #fde8e8; color: #b91c1c; }
   .sev-متوسطة { background: #fef3e2; color: #b45309; }
   .sev-طفيفة { background: #e7f6ef; color: #047857; }
+  .action-plan {
+    border: 1.2pt solid #c8933e;
+    background: #fbf8f0;
+    padding: 5mm;
+    border-radius: 2mm;
+  }
+  .priority {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.8mm 2.5mm;
+    font-size: 7.5pt;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .priority-urgent { background: #fde8e8; color: #b91c1c; }
+  .priority-high { background: #fef3e2; color: #b45309; }
+  .priority-medium { background: #e7f6ef; color: #047857; }
+  .legal-note {
+    border-right: 3pt solid #c8933e;
+    background: #fbf8f0;
+    padding: 3mm 4mm;
+  }
   .empty { color: #5b6580; font-size: 9pt; }
   .note { color: #5b6580; font-size: 8pt; margin: 0 0 2.5mm; }
   ol { margin: 0; padding-right: 6mm; }
