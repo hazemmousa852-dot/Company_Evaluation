@@ -78,7 +78,23 @@
     chip.classList.toggle("is-visible", Boolean(text));
   }
 
+  var LOGO_URL = "https://hazemmousa852-dot.github.io/marjaak-alqanuni/brand/logo-512.png";
+
+  function applyToolLogo() {
+    var marks = root.querySelectorAll('img[alt="ختم التدقيق"],img[data-hm-tool-logo]');
+    for (var i = 0; i < marks.length; i++) {
+      var mark = marks[i];
+      if (mark.getAttribute("src") !== LOGO_URL) mark.setAttribute("src", LOGO_URL);
+      if (mark.getAttribute("alt") !== "شعار حازم موسى") mark.setAttribute("alt", "شعار حازم موسى");
+      mark.setAttribute("data-hm-tool-logo", "1");
+      mark.classList.add("hm-tool-logo", "hm-tool-logo--hero");
+      mark.setAttribute("width", "64");
+      mark.setAttribute("height", "64");
+    }
+  }
+
   function applyEnhancements() {
+    applyToolLogo();
     addTrustStrip();
     addStatusGuide();
     clarifyPartialLabels();
@@ -101,3 +117,4 @@
     characterData: true
   });
 })();
+
